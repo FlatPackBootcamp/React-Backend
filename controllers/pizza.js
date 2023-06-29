@@ -15,7 +15,7 @@ const pizzaIndex = async (req, res) => {
         }
         
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json(err)
     }
 }
 
@@ -24,7 +24,7 @@ const pizzaDetail = async (req, res) => {
         const pizza = await Pizza.findById(req.params.id)
         res.status(200).json(pizza)
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json(err)
     }
 }
 
@@ -37,7 +37,7 @@ const addPizza = async (req, res) => {
         res.status(201).json(pizza)
 
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json(err)
     }
 }
 
@@ -46,7 +46,7 @@ const editPizza = async (req, res) => {
         const pizza = await Pizza.findByIdAndUpdate(req.params.id, req.body, {new:true})
         res.status(200).json(pizza)
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json(err)
     }
 }
 
@@ -55,7 +55,7 @@ const deletePizza = async (req, res) => {
         const pizza = await Pizza.findByIdAndDelete(req.params.id)
         res.status(200).json({message: `${pizza._id} has been deleted`})
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json(err)
     }
 }
 
@@ -92,7 +92,7 @@ const seedDatabase = async (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({error: err.message})
+        res.status(500).json(err)
     }
 }
 
