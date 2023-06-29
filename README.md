@@ -30,7 +30,9 @@ Assuming you have seeded the database all resources will be created under the 'a
 
 When not using the API key the JWT will attach the resources to the relevant user.
 
-### Seed The Database
+---
+
+### Prior to all lessons Seed The Database
 
 This will drop all Users, and All Pizzas.
 
@@ -38,6 +40,9 @@ User `admin` will be created, with password `admin`
 5 pizzas will be created with dummy data, and `admin` as the user
 
 Method: POST
+
 URL: /api/seed-db?instructorkey=kTz8BWsfmggm00a7FkQlkWzhSj8y6YRjazLD
+
 Response: 200 OK
+
 Response Body: "message": "Created 5 Pizzas, Happy Hacking"
