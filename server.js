@@ -21,7 +21,7 @@ app.use('/api', pizzaRoutes)
 app.use('/api', authRoutes)
 
 app.listen(PORT, () => {
-    console.log(`The Library is open on port ${PORT}`)
+    console.log(`The app is open on port ${PORT}`)
 })
 
 mongoose.connect(process.env.DB_URI,
