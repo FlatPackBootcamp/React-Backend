@@ -4,8 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
-const pizzaRoutes = require('./routes/pizza')
-const authRoutes = require('./routes/user')
+const apiRouter = require('./config/apiRouter')
 
 const app = express()
 
@@ -17,11 +16,10 @@ app.use(express.urlencoded({
     extended: true
 }))
 
-app.use('/api', pizzaRoutes)
-app.use('/api', authRoutes)
+app.use('/api', apiRouter)
 
 app.listen(PORT, () => {
-    console.log(`The Library is open on port ${PORT}`)
+    console.log(`Pizzeria app listening on port: ${PORT}`)
 })
 
 mongoose.connect(process.env.DB_URI,

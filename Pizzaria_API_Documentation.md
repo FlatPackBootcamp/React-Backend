@@ -2,23 +2,35 @@
 
 Welcome to the Pizzaria API, the perfect backend to learn React.
 
+This api allows you to keep a personal databse of all the pizzas that you love. You'll be able to create, read, update, and delete pizzas.
+
+Be aware, that whilst the API is set up to be personal to you, your instructors will be able to see what you create on the backend, and it is linked to you. So please have fun and make funny names, but let's steer clear of offensive.
+
 ## Contents
 
+- [Student Key](#student-key)
+- [Pizzas Get Deleted](#important-note)
 - [Get all pizzas](#get-all-pizzas)
 - [Get single pizza](#get-single-pizza)
 - [Add a Pizza](#add-a-new-pizza)
 - [Edit a Pizza](#edit-a-pizza)
 - [Delete a Pizza](#delete-a-pizza)
-- [Sign Up](#sign-up-a-new-user)
-- [Sign In](#sign-in-an-existing-user)
 
 ---
 
-```txt
-API Key: OeNLfmxednrNbUwWiAdtnjeX7tieIVQC2Nx7
-```
+## Student Key
+
+You will have had your student key emailed to you, or sent to you in Slack via private message. If you have not recieved it, please first double check your emails, and your slack DMs then if it's not there message or talk to your tutor, they will get it for you.
+
+For the majority of these API calls, you will need to add your student key as a query string.
+
+For example `http://URL.com/api/pizza?student_key=1L0v£P1&&A`
 
 ---
+
+### Important Note
+
+The Pizzas database gets completely deleted on the 16th of every month at midnight (UTC). If you create a pizza on or before the 16th, it will not exist afterwards.
 
 ## Get all Pizzas
 
@@ -30,11 +42,12 @@ To get all of the pizzas in the database
 
 ### URL
 
-`/api/pizza/index`
+`/api/pizza`
 
 ### Query Strings
 
-`None`
+No Query strings: Five default pizzas are returned.
+With `student_key`: All of your added Pizzas as well as the five default pizzas are returned.
 
 ### JSON Body
 
@@ -86,11 +99,20 @@ A JSON Object in the following format:
 
 ```json
 {
-    "_id": "649d8041640c3f0dafb55d38",
-    "name": "Meat Feast",
-    "toppings": [ "Sausage", "Bacon", "Beef", "Chicken" ],
-    "base": "Deep Dish",
-    "image": "https://unsplash.com/photos/Xt84tIHbjRY"
+    "_id": "667463a8af0b45436a1531a0",
+    "name": "Hawaiian",
+    "toppings": [
+        "Ham",
+        "Mushroom",
+        "Pineapple"
+    ],
+    "sauce": "Marinara",
+    "crust": "Thin",
+    "image": "https://imgur.com/gallery/sdanNp8",
+    "size": 8,
+    "heatRating": 0,
+    "isVegetarian": false,
+    "isVegan": false
 }
 ```
 
@@ -108,28 +130,25 @@ Add a new pizza to the Database
 
 `/api/pizza`
 
-### Headers
+### Query Strings
 
-For use with API key:
-
-```txt
-Authentication - <API Key>
-```
-
-For use when signed in and you have a JWT
-
-```txt
-Authentication - Bearer <JSON Web Token>
-```
+`student_key` Is required
 
 ### JSON Body
 
 ```json
 {
     "name": String,
-    "toppings": [String],
-    "base": String,
-    "image": String
+    "toppings": [
+        "Array of Strings"
+    ],
+    "sauce": String,
+    "crust": String,
+    "image": String,
+    "size": Number (min of 4),
+    "heatRating": Number (0, 1, 2, or 3),
+    "isVegetarian": Boolean,
+    "isVegan": Boolean
 }
 ```
 
@@ -151,19 +170,9 @@ Edit the fields on a pizza that exists within the Database
 
 `/api/pizza/<id of pizza>`
 
-### Headers
+### Query Strings
 
-For use with API key (you will be able to edit ALL pizzas):
-
-```txt
-Authentication - <API Key>
-```
-
-For use when signed in and you have a JWT (You will be able to edit your own pizzas)
-
-```txt
-Authentication - Bearer <JSON Web Token>
-```
+`student_key` is Required
 
 ### JSON Body
 
@@ -200,19 +209,9 @@ Warning, this will completely and irreversably destroy the pizza that you choose
 
 `/api/pizza/<id of pizza>`
 
-### Headers
+### Query Strings
 
-For use with API key (you will be able to edit ALL pizzas):
-
-```txt
-Authentication - <API Key>
-```
-
-For use when signed in and you have a JWT (You will be able to edit your own pizzas)
-
-```txt
-Authentication - Bearer <JSON Web Token>
-```
+`student_key` is Required
 
 ### JSON Body
 
@@ -225,81 +224,5 @@ Expected Status Code: `200 OK`
 ```json
 {
     "message": "<id Of Pizza> has been deleted"
-}
-```
-
----
-
-## Sign Up A New User
-
-So far you have been using the API key to do CRUD operations. Now you can sign up a new user. this user will be able to only edit and delete their own pizzas, but will be able to view everybody's pizzas.
-
-### Method
-
-`POST`
-
-### URL
-
-`/api/auth/signup`
-
-### Headers
-
-`None`
-
-### JSON Body
-
-```json
-{
-    "firstName": String,
-    "lastName": String,
-    "emailAddress": String,
-    "password": String
-}
-```
-
-### Response
-
-Expected Status Code: `201 Created`
-
-```json
-{
-    "message": "User created successfully!"
-}
-```
-
----
-
-## Sign In an Existing User
-
-Once a user has been signed up you can then sign in to get a JWT
-
-### Method
-
-`POST`
-
-### URL
-
-`/api/auth/signin`
-
-### Headers
-
-`None`
-
-### JSON Body
-
-```json
-{
-    "emailAddress": "george@mail.com",
-    "password": "password"
-}
-```
-
-### Response
-
-Expected Status Code: `200 OK`
-
-```json
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5YzMwZWYyMzg1NTI1ZThlYjU4MzY3In0sImlhdCI6MTY4Nzk1NzgzMywiZXhwIjoxNzIzOTU3ODMzfQ.pz-PbHFdEOsnEXCSYmEdHSOmvRllYFMxTaLkSBPtD7o"
 }
 ```
