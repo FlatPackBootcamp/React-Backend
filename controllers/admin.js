@@ -11,7 +11,7 @@ const addStudent = async (req, res) => {
         }
 
         const student = await new Student(data)
-        student.save()
+        await student.save()
 
         const responseData = {
             studentName: student.name,

@@ -8,7 +8,7 @@ const apiRouter = require('./config/apiRouter')
 
 const app = express()
 
-const PORT = 4000
+const PORT = 3000
 
 app.use(bodyParser.json())
 
